@@ -937,22 +937,30 @@ function renderProjects(projects, isLive){
 async function fetchBehanceProjects(){
   setSync('syncing','Syncing with Behance...');
   const rssUrl=`https://www.behance.net/feeds/user?username=${BEHANCE_USERNAME}`;
-  const apiUrl=`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
-  // لازم تستخدم CORS proxy عشان Behance مش بيسمح بـ direct requests
-  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
-  
-  const response = await fetch(proxyUrl);
-  const data = await response.json();
-  
-  // تحويل XML string إلى DOM
-  const parser = new DOMParser();
-  const xml = parser.parseFromString(data.contents, "text/xml");
-  
-  // استخراج الـ items وتحويلها لـ JSON
-  const items = xml.querySelectorAll("item");
-  console.log(data);
+  const apiUrl=`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}&count=4`;
 
+  try {
+    const res=await fetch(apiUrl,{signal:AbortSignal.timeout(6000)});
+    if(!res.ok) throw new Error('bad response');
+    const data=await res.json();
+    if(data.status!=='ok'||!data.items?.length) throw new Error('no items');
 
+    const projects=data.items.slice(0,4).map(item=>{
+      const content=item.content||item.description||'';
+      const imgMatch=content.match(/<img[^>]+src="([^"]+)"/);
+      return {
+        name: item.title,
+        url:  item.link,
+        img:  imgMatch?imgMatch[1]:(item.thumbnail||''),
+        fields: ['Behance Project']
+      };
+    });
+
+    renderProjects(projects, true);
+  } catch(err){
+    /* silent fallback — always shows fresh scraped data */
+    renderProjects(FALLBACK_PROJECTS, false);
+  }
 }
 
 /* ── Light Mode Toggle ── */
