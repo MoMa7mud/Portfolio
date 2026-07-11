@@ -1,0 +1,974 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="icon" href="./assets/favicon.png" type="image/png">
+<title>Mohamed Mahmoud — Graphic Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:ital,opsz,wght@0,9..40,100..1000;1,9..40,100..1000&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --primary: #A40848;
+  --primary-dim: rgba(164,8,72,0.12);
+  --primary-glow: rgba(164,8,72,0.3);
+  --bg: #0D0D0D;
+  --bg2: #111111;
+  --bg3: #161616;
+  --border: rgba(255,255,255,0.07);
+  --border-hover: rgba(164,8,72,0.4);
+  --text: #FFFFFF;
+  --muted: #B3B3B3;
+  --dim: #555;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;cursor:none}
+
+/* custom cursor */
+.cursor{position:fixed;width:10px;height:10px;background:var(--primary);border-radius:50%;pointer-events:none;z-index:9999;transition:transform 0.15s ease,opacity 0.2s;mix-blend-mode:normal}
+.cursor-ring{position:fixed;width:32px;height:32px;border:1px solid rgba(164,8,72,0.5);border-radius:50%;pointer-events:none;z-index:9998;transition:width 0.2s,height 0.2s,border-color 0.2s}
+.cursor-ring.hover{width:48px;height:48px;border-color:var(--primary)}
+
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");pointer-events:none;z-index:1;opacity:0.4}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;padding:1.25rem 3rem;display:flex;align-items:center;justify-content:space-between;border-bottom:0.5px solid transparent;transition:all 0.4s}
+nav.scrolled{background:rgba(13,13,13,0.92);backdrop-filter:blur(16px);border-color:var(--border)}
+.nav-logo{font-family:'Playfair Display',serif;font-size:1.2rem;color:var(--text);text-decoration:none;letter-spacing:0.02em;z-index:102;}
+.nav-logo span{color:var(--primary)}
+.nav-links{display:flex;gap:2.5rem;list-style:none}
+.nav-links a{font-size:13px;color:var(--muted);text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;transition:color 0.2s;position:relative}
+.nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:1px;background:var(--primary);transition:width 0.3s}
+.nav-links a:hover{color:var(--text)}
+.nav-links a:hover::after{width:100%}
+.nav-cta{background:var(--primary);color:#fff;font-size:12px;font-weight:500;padding:9px 22px;border-radius:24px;text-decoration:none;letter-spacing:0.06em;text-transform:uppercase;transition:all 0.3s;z-index:100;}
+.nav-cta:hover{background:#c0094f;box-shadow:0 0 24px var(--primary-glow)}
+
+/* HERO */
+.hero{min-height:100vh;display:flex;align-items:center;padding:8rem 3rem 5rem;position:relative;overflow:hidden}
+.hero-bg{position:fixed;inset:0;background:radial-gradient(ellipse 60% 50% at 70% 50%, rgba(164,8,72,0.08) 0%, transparent 60%)}
+.hero-line{position:fixed;top:0;right:28%;width:0.5px;height:100%;background:linear-gradient(to bottom,transparent,var(--border),transparent)}
+.hero-content{max-width:680px;position:relative;z-index:2}
+
+.hero-badge{display:inline-flex;align-items:center;gap:8px;font-size:11px;text-transform:uppercase;letter-spacing:0.12em;color:var(--muted);margin-bottom:2rem;opacity:0;animation:fadeUp 0.8s 0.2s both}
+.badge-dot{width:6px;height:6px;border-radius:50%;background:var(--primary);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(164,8,72,0.6)}50%{box-shadow:0 0 0 6px rgba(164,8,72,0)}}
+.hero h1{font-family:'Playfair Display',serif;font-size:clamp(3rem,6vw,5rem);line-height:1.05;font-weight:400;margin-bottom:1.5rem;opacity:0;animation:fadeUp 0.8s 0.4s both}
+.hero h1 em{font-style:italic;color:var(--primary)}
+.hero-sub{font-size:16px;color:var(--muted);line-height:1.8;max-width:520px;margin-bottom:2.5rem;font-weight:300;opacity:0;animation:fadeUp 0.8s 0.6s both}
+
+.hero-actions{display:flex;gap:1rem;flex-wrap:wrap;opacity:0;animation:fadeUp 0.8s 0.8s both;margin-bottom:3rem;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;border-radius:32px;font-size:13px;font-weight:500;letter-spacing:0.04em;text-decoration:none;transition:all 0.3s;cursor:none}
+.btn-primary{background:var(--primary);color:#fff}
+.btn-primary:hover{background:#c0094f;box-shadow:0 0 32px var(--primary-glow);transform:translateY(-1px)}
+.btn-outline{border:0.5px solid var(--border);color:var(--muted)}
+.btn-outline:hover{border-color:var(--primary);color:var(--text);transform:translateY(-1px)}
+
+.hero-stats{position:relative;display:flex;flex-direction:row;gap:2.5rem;z-index:2;opacity:0;animation:fadeUp 0.8s 1s both}
+.stat{text-align:left}
+.stat-num{font-family:'Playfair Display',serif;font-size:2.2rem;font-weight:700;color:var(--primary);line-height:1}
+.stat-label{font-size:11px;text-transform:uppercase;letter-spacing:0.1em;color:var(--dim);margin-top:4px}
+
+.hero-img{position:fixed;right:0;bottom:0;width:42%;height:100%;object-fit:cover;object-position:center top;opacity:0;mask-image:linear-gradient(to left,transparent 0%,rgba(0,0,0,0.5) 30%,rgba(0,0,0,0.8) 60%,transparent 100%);-webkit-mask-image:linear-gradient(to left,transparent 0%,rgba(0,0,0,0.5) 30%,rgba(0,0,0,0.8) 10%,transparent 100%);animation:fadeToHero 1.2s 0.3s both}
+
+@keyframes fadeUp{from{opacity:0;transform:translateY(24px)}to{opacity:1;transform:translateY(0)}}
+@keyframes fadeToHero{from{opacity:0}to{opacity:0.35}}
+
+/* SECTION COMMONS */
+section{padding:6rem 3rem;position:relative}
+.section-label{font-size:11px;text-transform:uppercase;letter-spacing:0.14em;color:var(--primary);margin-bottom:1rem;display:flex;align-items:center;gap:10px}
+.section-label::before{content:'';display:block;width:24px;height:0.5px;background:var(--primary)}
+.section-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3rem);font-weight:400;line-height:1.15;margin-bottom:3rem}
+.section-title em{font-style:italic;color:var(--primary)}
+
+/* ABOUT */
+.about-wrap{display:grid;grid-template-columns:1fr 1fr;gap:5rem;align-items:start}
+.about-img-wrap{position:relative}
+.about-img{width:100%;aspect-ratio:1;object-fit:cover;border-radius:4px;filter:grayscale(20%)}
+.about-img-frame{position:absolute;inset:-12px;border:0.5px solid var(--primary-dim);border-radius:6px;pointer-events:none}
+.about-img-accent{position:absolute;bottom:-24px;right:-24px;width:80px;height:80px;background:var(--primary);border-radius:4px;z-index:-1;opacity:0.6}
+.about-text p{font-size:15px;color:var(--muted);line-height:1.9;margin-bottom:1.2rem;font-weight:300}
+.about-text p strong{color:var(--text);font-weight:400}
+.about-chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:2rem}
+.chip{border:0.5px solid var(--border);border-radius:24px;padding:6px 16px;font-size:12px;color:var(--dim);letter-spacing:0.04em;transition:all 0.2s}
+.chip:hover{border-color:var(--primary);color:var(--primary)}
+
+/* SERVICES SECTION */
+.services-section{background:var(--bg);overflow:hidden;display:flex;flex-direction:column}
+.services-top{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:3rem;width:100%}
+.services-top .section-title{margin-bottom:0}
+.slider-controls{display:flex;gap:1rem;margin-bottom:0.5rem}
+.slider-btn{width:52px;height:52px;border-radius:50%;border:1px solid var(--border);background:var(--bg2);display:flex;align-items:center;justify-content:center;transition:all 0.3s ease;cursor:none}
+.slider-btn svg{width:22px;height:22px;fill:none;stroke:var(--muted);stroke-width:2;transition:all 0.3s ease}
+.slider-btn:hover{border-color:var(--primary);background:var(--primary-dim);box-shadow:0 0 15px var(--primary-glow)}
+.slider-btn:hover svg{stroke:#FFFFFF}
+
+.services-slider-container{width:100%;overflow:hidden;position:relative;cursor:grab;padding:1rem 0;display:block!important}
+.services-slider-container:active{cursor:grabbing}
+.services-track{display:flex;gap:1.5rem;width:max-content;will-change:transform;transition:transform 0.5s cubic-bezier(0.25,1,0.5,1)}
+.services-track.dragging{transition:none}
+
+.service-card{background:var(--bg2);border:0.5px solid var(--border);border-radius:16px;padding:3rem 2.5rem;width:360px;flex-shrink:0;transition:border-color 0.4s ease,background 0.4s ease,transform 0.4s ease;position:relative;overflow:hidden;display:flex;flex-direction:column;align-items:flex-start}
+.service-card::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top left,var(--primary-dim),transparent 65%);opacity:0;transition:opacity 0.4s ease}
+.service-card:hover{background:#141414;border-color:var(--border-hover);transform:translateY(-4px)}
+.service-card:hover::before{opacity:1}
+.service-header{width:100%;display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:2.5rem}
+.service-num{font-family:'DM Mono',monospace;font-size:14px;color:var(--dim);font-weight:500}
+
+.service-icon-3d{width:76px;height:76px;position:relative;display:flex;align-items:center;justify-content:center;border-radius:20px;background:linear-gradient(135deg,rgba(255,255,255,0.1) 0%,rgba(255,255,255,0.02) 100%);border:1px solid rgba(255,255,255,0.12);box-shadow:inset 0 4px 10px rgba(255,255,255,0.1),inset 0 -4px 10px rgba(0,0,0,0.5),0 10px 25px rgba(0,0,0,0.4);transform-style:preserve-3d;perspective:500px;transition:all 0.5s cubic-bezier(0.25,1,0.5,1)}
+.service-icon-3d::after{content:'';position:absolute;inset:0;border-radius:20px;background:linear-gradient(135deg,var(--primary) 0%,#4a001c 100%);opacity:0.25;z-index:-1;transform:translateZ(-10px) scale(0.95);box-shadow:0 0 15px var(--primary-glow);transition:all 0.5s ease}
+.icon-3d-element{position:relative;width:32px;height:32px;display:flex;align-items:center;justify-content:center;transform:translateZ(15px);filter:drop-shadow(0 4px 8px rgba(0,0,0,0.5));transition:all 0.5s ease}
+.icon-3d-element svg{width:100%;height:100%;fill:none;stroke:url(#identity3DGlow);stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.service-card:hover .service-icon-3d{transform:rotateY(15deg) rotateX(-10deg) translateZ(5px);border-color:rgba(164,8,72,0.4);background:linear-gradient(135deg,rgba(255,255,255,0.15) 0%,rgba(164,8,72,0.15) 100%);box-shadow:inset 0 4px 12px rgba(255,255,255,0.2),0 15px 30px rgba(164,8,72,0.25)}
+.service-card:hover .service-icon-3d::after{opacity:0.7;transform:translateZ(-15px) scale(1.02);filter:blur(2px)}
+.service-card:hover .icon-3d-element{transform:translateZ(25px) scale(1.1)}
+.service-name{font-size:20px;font-weight:500;color:var(--text);margin-bottom:0.8rem;line-height:1.3}
+.service-desc{font-size:14px;color:var(--muted);line-height:1.7;font-weight:300}
+.service-line{position:absolute;bottom:0;left:0;width:0;height:2px;background:var(--primary);transition:width 0.4s cubic-bezier(0.25,1,0.5,1)}
+.service-card:hover .service-line{width:100%}
+
+.svg-defs-container{position:absolute;width:0;height:0;overflow:hidden}
+
+/* TOOLS */
+.tools-row{display:flex;flex-wrap:wrap;gap:1rem;margin-top:4rem}
+.tool-item{display:flex;align-items:center;gap:10px;background:var(--bg3);border:0.5px solid var(--border);border-radius:12px;padding:12px 20px;transition:all 0.3s}
+.tool-item:hover{border-color:var(--primary);transform:translateY(-2px)}
+.tool-level{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--primary);margin-left:auto;padding-left:16px}
+.tool-name{font-size:14px;color:var(--text);font-weight:400}
+.tool-dot{width:8px;height:8px;background:var(--primary);border-radius:50%;flex-shrink:0}
+
+/* EXPERIENCE */
+.exp-section{background:var(--bg2)}
+.exp-grid{display:grid;grid-template-columns:1fr 1fr;gap:4rem}
+.exp-list{border-top:0.5px solid var(--border)}
+.exp-item{padding:1.5rem 0;border-bottom:0.5px solid var(--border);display:grid;grid-template-columns:1fr auto;gap:1rem;align-start:start;transition:all 0.3s;cursor:default}
+.exp-item:hover .exp-co{color:var(--primary)}
+.exp-co{font-size:15px;font-weight:500;color:var(--text);margin-bottom:4px;transition:color 0.3s}
+.exp-role{font-size:13px;color:var(--dim);font-weight:300}
+.exp-dates{font-family:'DM Mono',monospace;font-size:11px;color:var(--dim);white-space:nowrap;margin-top:2px}
+.exp-summary{font-size:15px;color:var(--muted);line-height:1.9;font-weight:300}
+.exp-summary li{margin-left:1.2rem;margin-bottom:0.5rem}
+
+/* ══════════════════════════════════
+   LIGHT MODE
+   ══════════════════════════════════ */
+body.light-mode {
+  --bg: #f5f5f0;
+  --bg2: #ebebE6;
+  --bg3: #e0e0db;
+  --border: rgba(0,0,0,0.08);
+  --border-hover: rgba(164,8,72,0.35);
+  --text: #111111;
+  --muted: #555555;
+  --dim: #888888;
+}
+body.light-mode nav.scrolled{background:rgba(245,245,240,0.92)}
+body.light-mode .hero-bg{background:radial-gradient(ellipse 60% 50% at 70% 50%, rgba(164,8,72,0.06) 0%, transparent 60%)}
+body.light-mode .contact-bg-text{color:rgba(164,8,72,0.05)}
+body.light-mode .luxury-contact-form{background:#e8e8e3}
+body.light-mode .form-group input,
+body.light-mode .form-group textarea{background:#f0f0eb;color:#111;border-color:rgba(0,0,0,0.12)}
+body.light-mode .form-group input::placeholder,
+body.light-mode .form-group textarea::placeholder{color:#999}
+body.light-mode .form-group label{color:#111}
+body.light-mode .form-submit-btn{background:#111;color:#fff}
+body.light-mode .form-submit-btn:hover{background:var(--primary);color:#fff}
+body.light-mode .scroll-progress-btn{background:#e0e0db}
+body.light-mode .about-img-placeholder{background:#ddd}
+body.light-mode .service-card{background:#ebebE6}
+body.light-mode footer{background:#ebebE6}
+body.light-mode .project-new-card{background:#ebebE6}
+body.light-mode .skeleton-new{background:linear-gradient(90deg,#e0e0db 25%,#d5d5d0 50%,#e0e0db 75%);background-size:200% 100%}
+
+/* Light mode toggle btn */
+.theme-toggle-btn{
+  position:fixed;bottom:5.5rem;right:2rem;
+  width:46px;height:46px;border-radius:50%;
+  background:var(--bg3);border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  z-index:999;box-shadow:0 4px 20px rgba(0,0,0,0.25);
+  transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s;
+  cursor:none;
+}
+.theme-toggle-btn:hover{border-color:var(--primary);box-shadow:0 0 20px var(--primary-glow);transform:translateY(-2px)}
+.theme-toggle-btn svg{width:18px;height:18px;fill:none;stroke:var(--text);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke 0.3s}
+.theme-toggle-btn:hover svg{stroke:var(--primary)}
+
+/* 🎨 PORTFOLIO / BEHANCE SECTION — upgraded */
+.portfolio-header-container{display:flex;flex-direction:column;align-items:flex-start;gap:1.5rem;margin-bottom:3rem}
+.portfolio-intro{max-width:600px}
+.portfolio-intro p{font-size:15px;color:var(--muted);line-height:1.8;font-weight:300}
+
+/* Topbar */
+.portfolio-topbar{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:1rem;flex-wrap:wrap;gap:1.5rem}
+.portfolio-topbar-right{display:flex;flex-direction:column;align-items:flex-end;gap:0.75rem}
+
+/* Behance button */
+.behance-inline-btn{display:inline-flex;align-items:center;gap:10px;border:0.5px solid var(--border);color:var(--muted);border-radius:100px;padding:10px 20px;text-decoration:none;font-size:13px;font-weight:500;letter-spacing:0.04em;transition:all 0.3s}
+.behance-inline-btn:hover{border-color:var(--primary);color:var(--text);background:var(--primary-dim);transform:translateY(-2px)}
+.behance-inline-btn svg{width:16px;height:16px;fill:currentColor;flex-shrink:0}
+.be-icon-mini{width:20px;height:20px;background:#1769ff;border-radius:4px;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff;flex-shrink:0}
+
+/* Sync status */
+.sync-status{display:inline-flex;align-items:center;gap:6px;font-size:11px;letter-spacing:0.06em;text-transform:uppercase;color:var(--dim)}
+.sync-dot{width:5px;height:5px;border-radius:50%;background:var(--dim);flex-shrink:0;transition:background 0.3s}
+.sync-status.syncing .sync-dot{background:var(--primary);animation:pulse 1.5s infinite}
+.sync-status.live    .sync-dot{background:#22c55e;animation:pulse 2.5s infinite}
+.sync-status.error   .sync-dot{background:#f87171;animation:none}
+
+/* Deco line above grid */
+.portfolio-deco-line{height:0.5px;background:linear-gradient(90deg,transparent,var(--primary-glow),transparent);margin-bottom:2.5rem;opacity:0.7}
+
+/* NEW single-row grid (4 cols) */
+.behance-feed-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:1.25rem;
+  margin-top:0;
+}
+
+/* NEW project card */
+.project-new-card{
+  background:var(--bg2);
+  border:0.5px solid var(--border);
+  border-radius:18px;
+  overflow:hidden;
+  text-decoration:none;
+  color:inherit;
+  display:block;
+  transition:border-color 0.35s ease,transform 0.35s ease;
+  position:relative;
+  cursor:none;
+  opacity:0;
+  transform:translateY(20px);
+  animation:cardInNew 0.5s ease forwards;
+}
+.project-new-card:nth-child(1){animation-delay:0.05s}
+.project-new-card:nth-child(2){animation-delay:0.15s}
+.project-new-card:nth-child(3){animation-delay:0.25s}
+.project-new-card:nth-child(4){animation-delay:0.35s}
+@keyframes cardInNew{to{opacity:1;transform:translateY(0)}}
+.project-new-card:hover{border-color:var(--border-hover);transform:translateY(-5px);box-shadow:0 16px 32px rgba(0,0,0,0.35)}
+
+/* Card image */
+.new-card-img-wrap{
+  position:relative;overflow:hidden;
+  aspect-ratio:16/10;
+  background:var(--bg3);
+}
+.new-card-img-wrap img{
+  width:100%;height:100%;object-fit:cover;display:block;
+  transition:transform 0.55s ease;
+}
+.project-new-card:hover .new-card-img-wrap img{transform:scale(1.04)}
+
+/* Card overlay on hover */
+.new-card-overlay{
+  position:absolute;inset:0;
+  background:linear-gradient(180deg,transparent 30%,rgba(13,13,13,0.82) 100%);
+  opacity:0;transition:opacity 0.35s ease;
+  display:flex;align-items:flex-end;padding:1.2rem;
+}
+.project-new-card:hover .new-card-overlay{opacity:1}
+.new-overlay-cta{
+  font-size:12px;font-weight:500;color:#fff;
+  background:rgba(255,255,255,0.12);
+  backdrop-filter:blur(8px);
+  border:1px solid rgba(255,255,255,0.15);
+  padding:7px 14px;border-radius:100px;
+  display:inline-flex;align-items:center;gap:6px;
+  font-family:'DM Mono',monospace;letter-spacing:0.04em;
+}
+.new-overlay-cta svg{width:11px;height:11px;fill:none;stroke:currentColor;stroke-width:2}
+
+/* Card body */
+.new-card-body{padding:1.25rem 1.4rem 1.5rem}
+.new-card-meta{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+.new-card-stat{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--dim);font-family:'DM Mono',monospace}
+.new-card-stat svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;flex-shrink:0}
+.new-card-title{font-family:'Playfair Display',serif;font-size:17px;font-weight:500;color:var(--text);line-height:1.3;margin-bottom:8px;transition:color 0.3s}
+.project-new-card:hover .new-card-title{color:var(--primary)}
+.new-card-tags{display:flex;flex-wrap:wrap;gap:6px}
+.new-tag{font-size:11px;text-transform:uppercase;letter-spacing:0.06em;color:var(--primary);background:var(--primary-dim);border:0.5px solid rgba(164,8,72,0.2);border-radius:100px;padding:4px 12px}
+
+/* Skeleton for new grid */
+.skeleton-new{background:linear-gradient(90deg,var(--bg2) 25%,var(--bg3) 50%,var(--bg2) 75%);background-size:200% 100%;animation:shimmerNew 1.6s infinite;border-radius:18px;border:0.5px solid var(--border)}
+.skeleton-new-img{aspect-ratio:16/10;border-radius:0}
+@keyframes shimmerNew{0%{background-position:200% 0}100%{background-position:-200% 0}}
+
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* CONTACT SECTION */
+.contact-section{background:var(--bg);position:relative;overflow:hidden}
+.contact-wrap{display:grid;grid-template-columns:1fr 1.1fr;gap:5rem;align-items:start}
+.contact-title{font-family:'Playfair Display',serif;font-size:clamp(2rem,4vw,3.2rem);font-weight:400;line-height:1.1;margin-bottom:1rem}
+.contact-title em{font-style:italic;color:var(--primary)}
+.contact-sub{font-size:16px;color:var(--muted);line-height:1.6;margin-bottom:2.5rem;font-weight:300}
+.contact-items{display:flex;flex-direction:column;gap:0.75rem}
+.contact-item{display:flex;align-items:center;gap:14px;text-decoration:none;color:var(--muted);padding:1rem 1.25rem;border:0.5px solid var(--border);border-radius:12px;transition:all 0.3s}
+.contact-item:hover{border-color:var(--primary);color:var(--text);background:var(--primary-dim);transform:translateX(4px)}
+.contact-icon{width:38px;height:38px;background:var(--primary-dim);border:0.5px solid rgba(164,8,72,0.2);border-radius:10px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background 0.3s,border-color 0.3s}
+.contact-item:hover .contact-icon{background:var(--primary);border-color:var(--primary)}
+.contact-icon svg{width:17px;height:17px;fill:var(--primary);transition:fill 0.3s}
+.contact-item:hover .contact-icon svg{fill:#fff}
+.contact-label{font-size:11px;text-transform:uppercase;letter-spacing:0.08em;color:var(--dim)}
+.contact-val{font-size:13px;color:var(--text);font-weight:400}
+.contact-bg-text{position:absolute;right:-2rem;bottom:-1rem;font-family:'Playfair Display',serif;font-size:clamp(6rem,15vw,12rem);color:rgba(164,8,72,0.04);font-weight:700;pointer-events:none;line-height:1;user-select:none}
+
+.luxury-contact-form{background:#111111;border:0.5px solid var(--border);padding:4rem 2.5rem;border-radius:20px;box-shadow:0 20px 40px rgba(0,0,0,0.3);position:relative}
+.luxury-contact-form::before{content:'';position:absolute;inset:0;border-radius:20px;background:radial-gradient(circle at bottom right,var(--primary-dim),transparent 70%);pointer-events:none}
+.form-group{display:flex;flex-direction:column;gap:12px;margin-bottom:2rem}
+.form-group label{font-size:14px;color:#FFFFFF;font-weight:400;letter-spacing:0.02em}
+.form-group input,.form-group textarea{background:#1C1C1C;border:1px solid rgba(255,255,255,0.08);border-radius:24px;padding:16px 24px;color:#FFFFFF;font-family:inherit;font-size:15px;transition:all 0.3s ease;width:100%;outline:none}
+.form-group input::placeholder,.form-group textarea::placeholder{color:#666666}
+.form-group input:focus,.form-group textarea:focus{border-color:var(--primary);background:#222222;box-shadow:0 0 15px var(--primary-glow)}
+.form-group textarea{border-radius:24px;resize:none}
+.form-privacy{display:flex;align-items:center;gap:12px;margin-bottom:2.5rem;padding-left:4px}
+.form-privacy input[type="checkbox"]{accent-color:var(--primary);width:18px;height:18px;cursor:none}
+.form-privacy label{font-size:14px;color:#AAAAAA;user-select:none}
+.form-submit-btn{width:100%;background:#FFFFFF;color:#000000;border:none;padding:16px;border-radius:30px;font-size:15px;font-weight:500;letter-spacing:0.02em;transition:all 0.3s ease;cursor:none}
+.form-submit-btn:hover{background:var(--primary);color:#FFFFFF;box-shadow:0 0 25px var(--primary-glow);transform:translateY(-2px)}
+
+/* FOOTER */
+footer{padding:2rem 3rem;border-top:0.5px solid var(--border);display:flex;justify-content:space-between;align-items:center}
+.footer-copy{font-size:12px;color:var(--dim)}
+.footer-links{display:flex;gap:2rem}
+.footer-links a{font-size:12px;color:var(--dim);text-decoration:none;transition:color 0.2s}
+.footer-links a:hover{color:var(--primary)}
+
+/* SCROLL REVEAL */
+.reveal{opacity:0;transform:translateY(32px);transition:opacity 0.7s ease,transform 0.7s ease}
+.reveal.visible{opacity:1;transform:translateY(0)}
+.reveal-delay-1{transition-delay:0.1s}
+.reveal-delay-2{transition-delay:0.2s}
+.reveal-delay-3{transition-delay:0.3s}
+
+.divider{height:0.5px;background:linear-gradient(to right,transparent,var(--border),transparent);margin:0 3rem}
+.about-img-placeholder{width:100%;aspect-ratio:1;border-radius:4px;background:var(--bg3);display:flex;align-items:center;justify-content:center;font-family:'Playfair Display',serif;font-size:4rem;color:var(--primary);filter:grayscale(20%)}
+
+/* SCROLL PROGRESS */
+.scroll-progress-btn{position:fixed;bottom:2rem;right:2rem;width:46px;height:46px;border-radius:50%;background:var(--bg3);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;z-index:999;box-shadow:0 4px 20px rgba(0,0,0,0.4);transition:border-color 0.3s,transform 0.3s,box-shadow 0.3s}
+.scroll-progress-btn:hover{border-color:var(--primary);box-shadow:0 0 20px var(--primary-glow);transform:translateY(-2px)}
+.scroll-progress-btn svg{position:absolute;width:100%;height:100%;transform:rotate(-90deg)}
+.scroll-progress-btn circle{fill:transparent;stroke:var(--primary);stroke-width:2.5;stroke-dasharray:126;stroke-dashoffset:126;stroke-linecap:round;transition:stroke-dashoffset 0.1s ease}
+.scroll-icon-wrap{position:relative;width:16px;height:16px;display:flex;align-items:center;justify-content:center;z-index:2;transition:transform 0.4s cubic-bezier(0.25,1,0.5,1)}
+.scroll-icon-wrap svg{transform:none;width:100%;height:100%;fill:none;stroke:var(--text);stroke-width:2;stroke-linecap:round;stroke-linejoin:round;transition:stroke 0.3s}
+.scroll-progress-btn:hover .scroll-icon-wrap svg{stroke:var(--primary)}
+.scroll-progress-btn.at-home .scroll-icon-wrap{transform:rotate(180deg)}
+
+/* RESPONSIVE */
+@media(max-width:768px){
+  nav{padding:1rem 1.25rem}
+  section{padding:4rem 1.25rem}
+  .hero{padding:7rem 1.25rem 4rem}
+  .hero h1{font-size:2.6rem}
+  .services-top{margin-bottom:1.5rem}
+  .slider-controls{display:none!important}
+  .mobile-controls-wrapper{display:flex!important;width:100%;justify-content:center;gap:1.5rem;margin-top:2rem}
+  .service-card{width:290px;padding:2.5rem 1.5rem}
+  .nav-logo{cursor:pointer;user-select:none;padding:6px 10px;border-radius:8px;background:rgba(255,255,255,0.02);border:0.5px solid var(--border);transition:all 0.3s;font-size:1.1rem}
+  .nav-logo:hover{border-color:var(--primary);background:var(--primary-dim)}
+  .nav-cta{display:inline-block;font-size:11px;padding:7px 16px}
+  .nav-links{display:flex;flex-direction:column;position:fixed;top:0;left:-100%;width:25%;min-width:200px;height:100vh;background:rgba(13,13,13,0.96);backdrop-filter:blur(20px);border-right:0.5px solid var(--border);padding:6rem 1.5rem 2rem;gap:2rem;z-index:101;transition:left 0.4s cubic-bezier(0.25,1,0.5,1)}
+  .nav-links.active{left:0}
+  .nav-links a{font-size:14px;display:block;padding:8px 0}
+  .hero-stats{display:flex;flex-direction:row;justify-content:center;gap:1.2rem;margin-top:2.5rem}
+  .stat{text-align:center}
+  .about-wrap,.exp-grid,.contact-wrap{grid-template-columns:1fr;gap:3rem}
+  .luxury-contact-form{padding:2rem 1.5rem}
+  .hero-img{width:100%;opacity:0.15}
+  footer{flex-direction:column;gap:1rem;text-align:center}
+  .scroll-progress-btn{bottom:1.5rem;right:1.5rem}
+  .portfolio-topbar{flex-direction:column;align-items:flex-start}
+  .portfolio-topbar-right{align-items:flex-start}
+  .behance-feed-grid{grid-template-columns:1fr}
+  .theme-toggle-btn{bottom:5rem;right:1.5rem}
+}
+
+.mobile-controls-wrapper{display:none}
+</style>
+</head>
+<body>
+
+<div class="svg-defs-container">
+  <svg>
+    <defs>
+      <linearGradient id="identity3DGlow" x1="0%" y1="0%" x2="100%" y2="100%">
+        <stop offset="0%" stop-color="#FFFFFF"/>
+        <stop offset="40%" stop-color="#ff338b"/>
+        <stop offset="80%" stop-color="#A40848"/>
+        <stop offset="100%" stop-color="#2d0010"/>
+      </linearGradient>
+    </defs>
+  </svg>
+</div>
+
+<div class="cursor" id="cursor"></div>
+<div class="cursor-ring" id="ring"></div>
+
+<!-- Light mode toggle -->
+<button class="theme-toggle-btn" id="themeToggleBtn" aria-label="Toggle light mode">
+  <svg viewBox="0 0 24 24" id="themeIcon">
+    <circle cx="12" cy="12" r="5"></circle>
+    <line x1="12" y1="1" x2="12" y2="3"></line>
+    <line x1="12" y1="21" x2="12" y2="23"></line>
+    <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+    <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+    <line x1="1" y1="12" x2="3" y2="12"></line>
+    <line x1="21" y1="12" x2="23" y2="12"></line>
+    <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+    <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+  </svg>
+</button>
+
+<a href="javascript:void(0)" class="scroll-progress-btn at-home" id="scrollBtn" aria-label="Scroll Action">
+  <svg><circle cx="23" cy="23" r="20" id="progressCircle"></circle></svg>
+  <div class="scroll-icon-wrap">
+    <svg viewBox="0 0 24 24"><line x1="12" y1="19" x2="12" y2="5"></line><polyline points="5 12 12 5 19 12"></polyline></svg>
+  </div>
+</a>
+
+<nav id="navbar">
+  <a href="#home" class="nav-logo" id="logoBtn">Mo<span>.</span>Mahmoud</a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="#about">About</a></li>
+    <li><a href="#services">Services</a></li>
+    <li><a href="#experience">Experience</a></li>
+    <li><a href="#portfolio">Portfolio</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Let's Talk</a>
+</nav>
+
+<section class="hero" id="home">
+  <div class="hero-bg"></div>
+  <div class="hero-line"></div>
+  <img src="./assets/hero.jpg" class="hero-img" alt="" aria-hidden="true" onerror="this.style.display='none'">
+  <div class="hero-content">
+    <div class="hero-badge"><span class="badge-dot"></span>Available for Freelance Projects</div>
+    <h1>Mo Mahmoud<br><em>Mid-Level </em><br>Graphic Designer.</h1>
+    <p class="hero-sub">Creating impactful visual experiences through strategic design, branding, and creative storytelling. 3+ years transforming ideas into compelling visuals.</p>
+    <div class="hero-actions">
+      <a href="#portfolio" class="btn btn-primary">View My Work ↗</a>
+      <a href="#contact" class="btn btn-outline">Let's Work Together</a>
+    </div>
+    <div class="hero-stats">
+      <div class="stat"><div class="stat-num count-up" data-target="3" data-suffix="+">0+</div><div class="stat-label">Years Exp</div></div>
+      <div class="stat"><div class="stat-num count-up" data-target="10" data-suffix="">0</div><div class="stat-label">Services</div></div>
+      <div class="stat"><div class="stat-num count-up" data-target="6" data-suffix="+">0+</div><div class="stat-label">Companies</div></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="about">
+  <div class="reveal">
+    <div class="section-label">About Me</div>
+    <div class="about-wrap">
+      <div class="about-img-wrap reveal">
+        <img src="./assets/profile.jpg" class="about-img" alt="Mohamed Mahmoud"
+             onerror="this.outerHTML='<div class=\'about-img-placeholder\'>MM</div>'">
+        <div class="about-img-frame"></div>
+        <div class="about-img-accent"></div>
+      </div>
+      <div class="about-text reveal reveal-delay-1">
+        <div class="section-title">Designing with<br><em>Purpose</em> & Precision.</div>
+        <p>I'm <strong>Mohamed Mahmoud</strong>, a 23-year-old Graphic Designer and a 2024 graduate of the Faculty of Specific Education, Department of Technology Education, Minia University, with a Very Good grade.</p>
+        <p>As a <strong>Mid-Level Graphic Designer</strong>, I specialize in creating visually engaging content that combines creativity with marketing objectives. Throughout my career, I have worked in both freelance and in-house environments, collaborating remotely with local and international companies on branding, social media campaigns, and commercial design projects.</p>
+        <p>My goal is to create designs that not only look great but also <strong>communicate effectively and deliver measurable results</strong>.</p>
+        <div class="about-chips">
+          <span class="chip">Social Media Design</span>
+          <span class="chip">Brand Identity</span>
+          <span class="chip">Photo Retouching</span>
+          <span class="chip">Sports Graphics</span>
+          <span class="chip">AI Tools</span>
+          <span class="chip">Visual Storytelling</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="services" class="services-section">
+  <div class="reveal">
+    <div class="services-top">
+      <div>
+        <div class="section-label">What I Do</div>
+        <div class="section-title">Services that<br><em>Drive Results.</em></div>
+      </div>
+      <div class="slider-controls">
+        <button class="slider-btn prev-btn-trigger" aria-label="Previous Service">
+          <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+        </button>
+        <button class="slider-btn next-btn-trigger" aria-label="Next Service">
+          <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <div class="services-slider-container reveal reveal-delay-1" id="sliderContainer">
+    <div class="services-track" id="sliderTrack">
+      <div class="service-card">
+        <div class="service-header"><div class="service-num">(01)</div><div class="service-icon-3d"><div class="icon-3d-element"><svg viewBox="0 0 24 24"><rect x="2" y="3" width="20" height="14" rx="2" ry="2"></rect><line x1="8" y1="21" x2="16" y2="21"></line><line x1="12" y1="17" x2="12" y2="21"></line></svg></div></div></div>
+        <div class="service-name">Social Media Design</div>
+        <div class="service-desc">Engaging, platform-focused content designed to maximize audience interaction and brand visibility.</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-header"><div class="service-num">(02)</div><div class="service-icon-3d"><div class="icon-3d-element"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><circle cx="12" cy="12" r="4"></circle><line x1="4.93" y1="4.93" x2="9.17" y2="9.17"></line><line x1="19.07" y1="4.93" x2="14.83" y2="9.17"></line><line x1="14.83" y1="14.83" x2="19.07" y2="19.07"></line><line x1="9.17" y1="14.83" x2="4.93" y2="19.07"></line></svg></div></div></div>
+        <div class="service-name">Logo Design</div>
+        <div class="service-desc">Unique and memorable logos crafted to represent your brand's identity and values.</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-header"><div class="service-num">(03)</div><div class="service-icon-3d"><div class="icon-3d-element"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path></svg></div></div></div>
+        <div class="service-name">Brand Identity Design</div>
+        <div class="service-desc">Complete visual systems that create consistency and strengthen brand recognition across all touchpoints.</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-header"><div class="service-num">(04)</div><div class="service-icon-3d"><div class="icon-3d-element"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><path d="M6 12c0-3.31 2.69-6 6-6s6 2.69 6 6-2.69 6-6 6-6-2.69-6-6z"></path><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path><path d="M2 12h20"></path></svg></div></div></div>
+        <div class="service-name">Sports Graphics Design</div>
+        <div class="service-desc">High-impact sports visuals, match posters, player announcements, and promotional campaigns.</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-header"><div class="service-num">(05)</div><div class="service-icon-3d"><div class="icon-3d-element"><svg viewBox="0 0 24 24"><polygon points="23 7 16 12 23 17 23 7"></polygon><rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect></svg></div></div></div>
+        <div class="service-name">Thumbnail Design</div>
+        <div class="service-desc">Eye-catching thumbnails optimized for clicks, views, and audience engagement.</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-header"><div class="service-num">(06)</div><div class="service-icon-3d"><div class="icon-3d-element"><svg viewBox="0 0 24 24"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path><polyline points="3.27 6.96 12 12.01 20.73 6.96"></polyline><line x1="12" y1="22.08" x2="12" y2="12"></line></svg></div></div></div>
+        <div class="service-name">Photo Manipulation</div>
+        <div class="service-desc">Professional image editing, enhancement, compositing, and advanced retouching techniques.</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-header"><div class="service-num">(07)</div><div class="service-icon-3d"><div class="icon-3d-element"><svg viewBox="0 0 24 24"><path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path><path d="M13.73 21a2 2 0 0 1-3.46 0"></path></svg></div></div></div>
+        <div class="service-name">Marketing Campaigns</div>
+        <div class="service-desc">Creative assets designed to support advertising campaigns across multiple digital platforms.</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-header"><div class="service-num">(08)</div><div class="service-icon-3d"><div class="icon-3d-element"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></svg></div></div></div>
+        <div class="service-name">Creative Visual Content</div>
+        <div class="service-desc">Innovative visual concepts tailored to business objectives and target audiences.</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-header"><div class="service-num">(09)</div><div class="service-icon-3d"><div class="icon-3d-element"><svg viewBox="0 0 24 24"><line x1="18" y1="20" x2="18" y2="10"></line><line x1="12" y1="20" x2="12" y2="4"></line><line x1="6" y1="20" x2="6" y2="14"></line></svg></div></div></div>
+        <div class="service-name">Advertising & Promotional</div>
+        <div class="service-desc">Compelling promotional materials that help businesses attract attention and generate leads.</div>
+        <div class="service-line"></div>
+      </div>
+      <div class="service-card">
+        <div class="service-header"><div class="service-num">(10)</div><div class="service-icon-3d"><div class="icon-3d-element"><svg viewBox="0 0 24 24"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"></path><path d="M12 8v4l3 3"></path></svg></div></div></div>
+        <div class="service-name">Digital Branding Solutions</div>
+        <div class="service-desc">Strategic visual branding solutions crafted for modern digital businesses.</div>
+        <div class="service-line"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mobile-controls-wrapper">
+    <button class="slider-btn prev-btn-trigger" aria-label="Previous Service">
+      <svg viewBox="0 0 24 24"><line x1="19" y1="12" x2="5" y2="12"></line><polyline points="12 19 5 12 12 5"></polyline></svg>
+    </button>
+    <button class="slider-btn next-btn-trigger" aria-label="Next Service">
+      <svg viewBox="0 0 24 24"><line x1="5" y1="12" x2="19" y2="12"></line><polyline points="12 5 19 12 12 19"></polyline></svg>
+    </button>
+  </div>
+
+  <div style="margin-top:4rem" class="reveal reveal-delay-2">
+    <div class="section-label">Tools & Software</div>
+    <div class="tools-row">
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Adobe Photoshop</span><span class="tool-level">Advanced</span></div>
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Adobe Illustrator</span><span class="tool-level">Advanced</span></div>
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Adobe InDesign</span><span class="tool-level">Fundamentals</span></div>
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">AI Creative Tools</span><span class="tool-level">Advanced</span></div>
+      <div class="tool-item"><div class="tool-dot"></div><span class="tool-name">Video Editing</span><span class="tool-level">Basic</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- =============================================
+     PORTFOLIO / BEHANCE SECTION — upgraded
+     ============================================= -->
+<section id="portfolio">
+  <div class="reveal">
+    <div class="portfolio-topbar">
+      <div>
+        <div class="section-label">Selected Projects</div>
+        <div class="section-title" style="margin-bottom:0">Work that<br><em>Speaks</em> for Itself.</div>
+      </div>
+      <div class="portfolio-topbar-right">
+        <div class="sync-status syncing" id="syncStatus">
+          <span class="sync-dot" id="syncDot"></span>
+          <span id="syncText">Syncing with Behance...</span>
+        </div>
+        <a href="https://www.behance.net/MoMa7moud" target="_blank" rel="noopener" class="behance-inline-btn">
+          <svg fill="#000000" width="800px" height="800px" viewBox="-2 -5.5 24 24" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin" class="jam jam-behance"><path d='M18.025 1.769h-5.001V.527h5.001v1.242zm-8.33 5.094c.322.5.483 1.107.483 1.819 0 .737-.182 1.398-.551 1.982a3.436 3.436 0 0 1-.879.975 3.395 3.395 0 0 1-1.402.624 8.665 8.665 0 0 1-1.753.167H0V.011h5.998C7.509.036 8.58.474 9.214 1.334c.38.528.568 1.16.568 1.897 0 .759-.19 1.366-.574 1.828-.213.259-.528.494-.945.707.631.231 1.11.595 1.431 1.097zm-6.83-1.955h2.627c.54 0 .977-.103 1.313-.308.336-.205.504-.57.504-1.092 0-.578-.222-.961-.667-1.146-.383-.128-.872-.194-1.466-.194H2.864v2.74zm4.697 3.597c0-.645-.264-1.091-.79-1.33-.295-.137-.71-.206-1.242-.211H2.864v3.31H5.49c.539 0 .956-.071 1.257-.218.543-.271.816-.786.816-1.551zm12.318-2.02c.06.406.088.995.077 1.766H13.48c.036.894.344 1.519.93 1.877.353.224.78.334 1.282.334.528 0 .959-.134 1.29-.409.181-.145.34-.35.478-.61h2.374c-.062.528-.348 1.064-.861 1.608-.796.865-1.912 1.299-3.346 1.299-1.184 0-2.228-.366-3.134-1.095-.903-.732-1.356-1.918-1.356-3.564 0-1.543.407-2.724 1.224-3.546.82-.824 1.878-1.234 3.182-1.234.774 0 1.47.138 2.092.416.62.278 1.132.716 1.536 1.317.365.53.6 1.142.71 1.84zm-2.337.231c-.043-.618-.25-1.086-.621-1.406-.369-.32-.83-.481-1.379-.481-.598 0-1.06.172-1.387.51-.33.337-.536.796-.62 1.377h4.007z' /></svg>
+          <span>View full profile ↗</span>
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div class="portfolio-intro reveal reveal-delay-1" style="margin-bottom:1.5rem">
+    <p>Browse my live collection of branding, social media, sports, and creative design work — synchronized automatically straight from my Behance profile.</p>
+  </div>
+
+  <div class="portfolio-deco-line reveal reveal-delay-1"></div>
+
+  <!-- Grid populated by JS -->
+  <div class="behance-feed-grid reveal reveal-delay-2" id="behanceFeedContainer">
+    <!-- skeletons -->
+    <div class="skeleton-new"><div class="skeleton-new-img skeleton-new"></div><div style="padding:1.25rem 1.4rem"><div class="skeleton-new" style="height:10px;border-radius:6px;width:50%;margin-bottom:10px;animation:shimmerNew 1.6s infinite"></div><div class="skeleton-new" style="height:16px;border-radius:6px;width:80%;margin-bottom:8px;animation:shimmerNew 1.6s infinite"></div><div class="skeleton-new" style="height:10px;border-radius:6px;width:40%;animation:shimmerNew 1.6s infinite"></div></div></div>
+    <div class="skeleton-new"><div class="skeleton-new-img skeleton-new"></div><div style="padding:1.25rem 1.4rem"><div class="skeleton-new" style="height:10px;border-radius:6px;width:50%;margin-bottom:10px;animation:shimmerNew 1.6s infinite"></div><div class="skeleton-new" style="height:16px;border-radius:6px;width:80%;margin-bottom:8px;animation:shimmerNew 1.6s infinite"></div><div class="skeleton-new" style="height:10px;border-radius:6px;width:40%;animation:shimmerNew 1.6s infinite"></div></div></div>
+    <div class="skeleton-new"><div class="skeleton-new-img skeleton-new"></div><div style="padding:1.25rem 1.4rem"><div class="skeleton-new" style="height:10px;border-radius:6px;width:50%;margin-bottom:10px;animation:shimmerNew 1.6s infinite"></div><div class="skeleton-new" style="height:16px;border-radius:6px;width:80%;margin-bottom:8px;animation:shimmerNew 1.6s infinite"></div><div class="skeleton-new" style="height:10px;border-radius:6px;width:40%;animation:shimmerNew 1.6s infinite"></div></div></div>
+    <div class="skeleton-new"><div class="skeleton-new-img skeleton-new"></div><div style="padding:1.25rem 1.4rem"><div class="skeleton-new" style="height:10px;border-radius:6px;width:50%;margin-bottom:10px;animation:shimmerNew 1.6s infinite"></div><div class="skeleton-new" style="height:16px;border-radius:6px;width:80%;margin-bottom:8px;animation:shimmerNew 1.6s infinite"></div><div class="skeleton-new" style="height:10px;border-radius:6px;width:40%;animation:shimmerNew 1.6s infinite"></div></div></div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<section id="contact" class="contact-section">
+  <div class="contact-bg-text">Contact</div>
+  <div class="contact-wrap">
+    <div class="reveal">
+      <div class="section-label">Get In Touch</div>
+      <h2 class="contact-title">Get In <em>Touch.</em></h2>
+      <p class="contact-sub">Let's create a visual presence your audience won't forget.</p>
+      <div class="contact-items">
+        <a href="mailto:momahmoud772@gmail.com" class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 00-2 2v12a2 2 0 002 2h16a2 2 0 002-2V6a2 2 0 00-2-2zm0 2l-8 5-8-5h16zm0 12H4V8l8 5 8-5v10z"/></svg>
+          </div>
+          <div><div class="contact-label">Email</div><div class="contact-val">momahmoud772@gmail.com</div></div>
+        </a>
+        <a href="https://wa.me/201033401430" target="_blank" class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347z"/><path d="M12 0C5.373 0 0 5.373 0 12c0 2.127.558 4.122 1.532 5.849L.054 23.447a.5.5 0 00.499.553h.001l5.756-1.507A11.945 11.945 0 0012 24c6.627 0 12-5.373 12-12S18.627 0 12 0zm0 22a9.945 9.945 0 01-5.065-1.378l-.36-.214-3.742.979.997-3.642-.235-.374A9.953 9.953 0 012 12C2 6.477 6.477 2 12 2s10 4.477 10 10-4.477 10-10 10z"/></svg>
+          </div>
+          <div><div class="contact-label">WhatsApp</div><div class="contact-val">+20 103 340 1430</div></div>
+        </a>
+        <a href="https://www.linkedin.com/in/mo7amedma7moud" target="_blank" class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+          </div>
+          <div><div class="contact-label">LinkedIn</div><div class="contact-val">mo7amedma7moud</div></div>
+        </a>
+        <a href="https://www.behance.net/MoMa7moud" target="_blank" class="contact-item">
+          <div class="contact-icon">
+          <svg fill="#000000" width="800px" height="800px" viewBox="-2 -5.5 24 24" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMinYMin" class="jam jam-behance"><path d='M18.025 1.769h-5.001V.527h5.001v1.242zm-8.33 5.094c.322.5.483 1.107.483 1.819 0 .737-.182 1.398-.551 1.982a3.436 3.436 0 0 1-.879.975 3.395 3.395 0 0 1-1.402.624 8.665 8.665 0 0 1-1.753.167H0V.011h5.998C7.509.036 8.58.474 9.214 1.334c.38.528.568 1.16.568 1.897 0 .759-.19 1.366-.574 1.828-.213.259-.528.494-.945.707.631.231 1.11.595 1.431 1.097zm-6.83-1.955h2.627c.54 0 .977-.103 1.313-.308.336-.205.504-.57.504-1.092 0-.578-.222-.961-.667-1.146-.383-.128-.872-.194-1.466-.194H2.864v2.74zm4.697 3.597c0-.645-.264-1.091-.79-1.33-.295-.137-.71-.206-1.242-.211H2.864v3.31H5.49c.539 0 .956-.071 1.257-.218.543-.271.816-.786.816-1.551zm12.318-2.02c.06.406.088.995.077 1.766H13.48c.036.894.344 1.519.93 1.877.353.224.78.334 1.282.334.528 0 .959-.134 1.29-.409.181-.145.34-.35.478-.61h2.374c-.062.528-.348 1.064-.861 1.608-.796.865-1.912 1.299-3.346 1.299-1.184 0-2.228-.366-3.134-1.095-.903-.732-1.356-1.918-1.356-3.564 0-1.543.407-2.724 1.224-3.546.82-.824 1.878-1.234 3.182-1.234.774 0 1.47.138 2.092.416.62.278 1.132.716 1.536 1.317.365.53.6 1.142.71 1.84zm-2.337.231c-.043-.618-.25-1.086-.621-1.406-.369-.32-.83-.481-1.379-.481-.598 0-1.06.172-1.387.51-.33.337-.536.796-.62 1.377h4.007z' /></svg>
+          </div>
+          <div><div class="contact-label">Behance</div><div class="contact-val">MoMa7moud</div></div>
+        </a>
+        <a href="https://www.instagram.com/mo_ma7mud/" target="_blank" rel="noopener" class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98-.059 1.281-.073 1.689-.073 4.948 0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98 1.281.058 1.689.072 4.948.072 3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98-1.281-.059-1.69-.073-4.949-.073zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
+          </div>
+          <div><div class="contact-label">Instagram</div><div class="contact-val">mo_ma7mud</div></div>
+        </a>
+        <a href="https://drive.google.com/file/d/15V5JeJq1zjkVIlh1M8K-qMMi9I0rFxZH/view" target="_blank" rel="noopener" class="contact-item">
+          <div class="contact-icon">
+            <svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8l-6-6zm-1 1.5L18.5 9H13V3.5zM6 20V4h5v7h7v9H6z"/></svg>
+          </div>
+          <div><div class="contact-label">Curriculum Vitae</div><div class="contact-val">Download My CV ↗</div></div>
+        </a>
+      </div>
+    </div>
+    <div class="reveal reveal-delay-1">
+      <form class="luxury-contact-form" onsubmit="event.preventDefault();">
+        <div class="form-group">
+          <label for="form-name">Name*</label>
+          <input type="text" id="form-name" placeholder="Jane Smith" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="form-email">Email*</label>
+          <input type="email" id="form-email" placeholder="jane@email.com" required autocomplete="off">
+        </div>
+        <div class="form-group">
+          <label for="form-message">Message*</label>
+          <textarea id="form-message" rows="5" placeholder="Write here..." required></textarea>
+        </div>
+        <div class="form-privacy">
+          <input type="checkbox" id="form-privacy-check" required>
+          <label for="form-privacy-check">I accept the privacy policy.</label>
+        </div>
+        <button type="submit" class="form-submit-btn">Send message</button>
+      </form>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <span class="footer-copy">© 2026 Mohamed Mahmoud — Graphic Designer, Egypt</span>
+  <div class="footer-links">
+    <a href="mailto:momahmoud772@gmail.com">Gmail</a>
+    <a href="https://www.behance.net/MoMa7moud" target="_blank">Behance</a>
+    <a href="https://www.linkedin.com/in/mo7amedma7moud" target="_blank">LinkedIn</a>
+    <a href="https://wa.me/201033401430" target="_blank">WhatsApp</a>
+  </div>
+</footer>
+
+<script>
+/* ── Cursor ── */
+const isMobile = window.matchMedia('(max-width:768px)').matches || 'ontouchstart' in window;
+const cursor = document.getElementById('cursor');
+const ring   = document.getElementById('ring');
+
+if (!isMobile) {
+  let mx=0,my=0,rx=0,ry=0;
+  document.addEventListener('mousemove', e=>{
+    mx=e.clientX; my=e.clientY;
+    cursor.style.left=(mx-5)+'px'; cursor.style.top=(my-5)+'px';
+  });
+  (function animRing(){
+    rx+=(mx-rx)*0.12; ry+=(my-ry)*0.12;
+    ring.style.left=(rx-16)+'px'; ring.style.top=(ry-16)+'px';
+    requestAnimationFrame(animRing);
+  })();
+  function assignCursorListeners(){
+    document.querySelectorAll('a,button,input,textarea,.service-card,.exp-item,.scroll-progress-btn,.slider-btn,.project-card,.project-new-card,.theme-toggle-btn').forEach(el=>{
+      el.addEventListener('mouseenter',()=>ring.classList.add('hover'));
+      el.addEventListener('mouseleave',()=>ring.classList.remove('hover'));
+    });
+  }
+  assignCursorListeners();
+  window._assignCursorListeners = assignCursorListeners;
+} else {
+  cursor.style.display='none'; ring.style.display='none';
+  document.body.style.cursor='auto';
+}
+
+/* ── Navbar ── */
+window.addEventListener('scroll',()=>{
+  document.getElementById('navbar').classList.toggle('scrolled',window.scrollY>60);
+});
+
+/* ── Scroll reveal ── */
+const obs = new IntersectionObserver(entries=>{
+  entries.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add('visible'); obs.unobserve(e.target); } });
+},{threshold:0.08,rootMargin:'0px 0px -30px 0px'});
+document.querySelectorAll('.reveal').forEach(el=>obs.observe(el));
+
+/* ── Count-up ── */
+function initCounters(){
+  document.querySelectorAll('.count-up').forEach(counter=>{
+    const target=parseInt(counter.getAttribute('data-target'),10);
+    const suffix=counter.getAttribute('data-suffix')||'';
+    const start=performance.now();
+    (function tick(now){
+      const p=Math.min((now-start)/3000,1);
+      counter.textContent=Math.floor(p*(2-p)*target)+suffix;
+      if(p<1) requestAnimationFrame(tick);
+      else counter.textContent=target+suffix;
+    })(start);
+  });
+}
+window.addEventListener('DOMContentLoaded',initCounters);
+
+/* ── Mobile nav ── */
+const logoBtn=document.getElementById('logoBtn');
+const navLinks=document.getElementById('navLinks');
+logoBtn.addEventListener('click',e=>{
+  if(window.matchMedia('(max-width:768px)').matches){ e.preventDefault(); e.stopPropagation(); navLinks.classList.toggle('active'); }
+});
+document.querySelectorAll('.nav-links a, nav .nav-cta').forEach(l=>l.addEventListener('click',()=>navLinks.classList.remove('active')));
+document.addEventListener('click',e=>{ if(!navLinks.contains(e.target)&&e.target!==logoBtn) navLinks.classList.remove('active'); });
+
+/* ── Scroll progress btn ── */
+const scrollBtn=document.getElementById('scrollBtn');
+const progressCircle=document.getElementById('progressCircle');
+window.addEventListener('scroll',()=>{
+  const pct=window.scrollY/(document.documentElement.scrollHeight-window.innerHeight)||0;
+  progressCircle.style.strokeDashoffset=126-(pct*126);
+  scrollBtn.classList.toggle('at-home',window.scrollY<120);
+});
+scrollBtn.addEventListener('click',()=>{
+  if(scrollBtn.classList.contains('at-home')) document.getElementById('contact').scrollIntoView({behavior:'smooth'});
+  else window.scrollTo({top:0,behavior:'smooth'});
+});
+
+/* ── Services slider ── */
+const sliderContainer=document.getElementById('sliderContainer');
+const sliderTrack=document.getElementById('sliderTrack');
+let tx=0, dragging=false, startX, autoId;
+
+function sliderLimit(){
+  const cw=sliderTrack.children[0].offsetWidth;
+  const n=sliderTrack.children.length;
+  return (cw*n)+(24*(n-1))-sliderContainer.clientWidth+48;
+}
+function clampTx(){ if(tx>0)tx=0; if(-tx>sliderLimit())tx=-sliderLimit(); }
+
+(function autoplay(){
+  if(!dragging){ tx-=0.4; clampTx(); if(-tx>=sliderLimit()) tx=0; sliderTrack.style.transform=`translateX(${tx}px)`; }
+  requestAnimationFrame(autoplay);
+})();
+
+sliderContainer.addEventListener('mouseenter',()=>dragging=true);
+sliderContainer.addEventListener('mouseleave',()=>{ if(!isPressed) dragging=false; });
+
+let isPressed=false;
+sliderContainer.addEventListener('mousedown',e=>{ isPressed=true; dragging=true; sliderTrack.classList.add('dragging'); startX=e.pageX-tx; });
+window.addEventListener('mouseup',()=>{ if(!isPressed)return; isPressed=false; sliderTrack.classList.remove('dragging'); setTimeout(()=>{ dragging=false; },1200); });
+sliderContainer.addEventListener('mousemove',e=>{ if(!isPressed)return; e.preventDefault(); tx=e.pageX-startX; clampTx(); sliderTrack.style.transform=`translateX(${tx}px)`; });
+sliderContainer.addEventListener('touchstart',e=>{ isPressed=true; dragging=true; sliderTrack.classList.add('dragging'); startX=e.touches[0].pageX-tx; });
+sliderContainer.addEventListener('touchend',()=>{ isPressed=false; sliderTrack.classList.remove('dragging'); setTimeout(()=>{ dragging=false; },1200); });
+sliderContainer.addEventListener('touchmove',e=>{ if(!isPressed)return; tx=e.touches[0].pageX-startX; clampTx(); sliderTrack.style.transform=`translateX(${tx}px)`; });
+
+document.querySelectorAll('.next-btn-trigger').forEach(btn=>btn.addEventListener('click',()=>{
+  dragging=true; tx-=320; clampTx(); sliderTrack.style.transform=`translateX(${tx}px)`;
+  setTimeout(()=>dragging=false,2000);
+}));
+document.querySelectorAll('.prev-btn-trigger').forEach(btn=>btn.addEventListener('click',()=>{
+  dragging=true; tx+=320; clampTx(); sliderTrack.style.transform=`translateX(${tx}px)`;
+  setTimeout(()=>dragging=false,2000);
+}));
+
+/* ═══════════════════════════════════════════
+   BEHANCE LIVE FEED — auto-sync on load
+   Primary:  rss2json (free CORS proxy)
+   Fallback: scraped static data (always fresh)
+   ═══════════════════════════════════════════ */
+const BEHANCE_USERNAME = 'MoMa7moud';
+
+const FALLBACK_PROJECTS = [
+  {
+    id: 247409435,
+    name: 'Sports Academy Designs',
+    url: 'https://www.behance.net/gallery/247409435/Sports-Academy-Designs',
+    img: 'https://mir-s3-cdn-cf.behance.net/projects/808/2f08de247409435.Y3JvcCw3ODUyLDYxNDIsMCww.png',
+    views: 44, likes: 11,
+    fields: ['Social Media', 'Sports Design']
+  },
+  {
+    id: 247309013,
+    name: 'Brand Identity "Codia Adv"',
+    url: 'https://www.behance.net/gallery/247309013/Brand-Identity-Codia-Adv',
+    img: 'https://mir-s3-cdn-cf.behance.net/projects/808/d3b982247309013.Y3JvcCw3ODUyLDYxNDIsMCww.png',
+    views: 2121, likes: 44,
+    fields: ['Brand Identity', 'Logo Design']
+  },
+  {
+    id: 247238781,
+    name: 'Social Media (Food Designs)',
+    url: 'https://www.behance.net/gallery/247238781/Social-Media-(Food-Designs)',
+    img: 'https://mir-s3-cdn-cf.behance.net/projects/808/a7f76a247238781.Y3JvcCwxNjE2LDEyNjQsMCww.png',
+    views: 66, likes: 22,
+    fields: ['Social Media', 'Food Design']
+  },
+  {
+    id: 247167953,
+    name: 'Social Media Designs',
+    url: 'https://www.behance.net/gallery/247167953/Social-Media-Designs',
+    img: 'https://mir-s3-cdn-cf.behance.net/projects/808/1a8fcf247167953.Y3JvcCwyMzMxLDE4MjMsMCww.png',
+    views: 1919, likes: 33,
+    fields: ['Social Media', 'Visual Design']
+  }
+];
+
+function fmtNum(n){
+  if(!n && n!==0) return '0';
+  return n>=1000 ? (n/1000).toFixed(1)+'k' : String(n);
+}
+
+function buildCard(p){
+  const fields = (p.fields||[]).slice(0,2);
+  const tagsHTML = fields.length ? `<div class="new-card-tags">${fields.map(f=>`<span class="new-tag">${f}</span>`).join('')}</div>` : (p.field ? `<div class="new-card-tags"><span class="new-tag">${p.field}</span></div>` : '');
+  return `
+  <a class="project-new-card" href="${p.url}" target="_blank" rel="noopener">
+    <div class="new-card-img-wrap">
+      ${p.img ? `<img src="${p.img}" alt="${p.name}" loading="lazy">` : ''}
+      <div class="new-card-overlay">
+        <span class="new-overlay-cta">
+          View Project
+          <svg viewBox="0 0 24 24"><path d="M7 17L17 7M7 7h10v10"/></svg>
+        </span>
+      </div>
+    </div>
+    <div class="new-card-body">
+      <div class="new-card-meta">
+        <span class="new-card-stat">
+          <svg viewBox="0 0 24 24"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          ${fmtNum(p.views)}
+        </span>
+        <span class="new-card-stat">
+          <svg viewBox="0 0 24 24"><path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/></svg>
+          ${fmtNum(p.likes)}
+        </span>
+      </div>
+      <div class="new-card-title">${p.name}</div>
+      ${tagsHTML}
+    </div>
+  </a>`;
+}
+
+function setSync(state, text){
+  const el=document.getElementById('syncStatus');
+  el.className='sync-status '+state;
+  document.getElementById('syncText').textContent=text;
+}
+
+function renderProjects(projects, isLive){
+  const grid=document.getElementById('behanceFeedContainer');
+  grid.innerHTML=projects.slice(0,4).map(buildCard).join('');
+  if(window._assignCursorListeners) window._assignCursorListeners();
+  if(isLive){
+    const now=new Date();
+    setSync('live',`Live · synced ${now.getHours().toString().padStart(2,'0')}:${now.getMinutes().toString().padStart(2,'0')}`);
+  } else {
+    setSync('live','Latest 4 projects · auto-syncs on load');
+  }
+}
+
+async function fetchBehanceProjects(){
+  setSync('syncing','Syncing with Behance...');
+  const rssUrl=`https://www.behance.net/feeds/user?username=${BEHANCE_USERNAME}`;
+  const apiUrl=`https://api.rss2json.com/v1/api.json?rss_url=${encodeURIComponent(rssUrl)}`;
+  // لازم تستخدم CORS proxy عشان Behance مش بيسمح بـ direct requests
+  const proxyUrl = `https://api.allorigins.win/get?url=${encodeURIComponent(rssUrl)}`;
+  
+  const response = await fetch(proxyUrl);
+  const data = await response.json();
+  
+  // تحويل XML string إلى DOM
+  const parser = new DOMParser();
+  const xml = parser.parseFromString(data.contents, "text/xml");
+  
+  // استخراج الـ items وتحويلها لـ JSON
+  const items = xml.querySelectorAll("item");
+  console.log(data);
+
+
+}
+
+/* ── Light Mode Toggle ── */
+const themeBtn = document.getElementById('themeToggleBtn');
+const themeIcon = document.getElementById('themeIcon');
+const moonSVG = `<path d="M21 12.79A9 9 0 1111.21 3 7 7 0 0021 12.79z"></path>`;
+const sunSVG = `<circle cx="12" cy="12" r="5"></circle><line x1="12" y1="1" x2="12" y2="3"></line><line x1="12" y1="21" x2="12" y2="23"></line><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line><line x1="1" y1="12" x2="3" y2="12"></line><line x1="21" y1="12" x2="23" y2="12"></line><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>`;
+
+let isLight = false;
+themeBtn.addEventListener('click', () => {
+  isLight = !isLight;
+  document.body.classList.toggle('light-mode', isLight);
+  themeIcon.innerHTML = isLight ? moonSVG : sunSVG;
+});
+
+window.addEventListener('DOMContentLoaded', fetchBehanceProjects);
+</script>
+</body>
+</html>
